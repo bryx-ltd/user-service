@@ -7,6 +7,13 @@ on:
 jobs:
   generate-pr-text:
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      checks: read
+
     steps:
       - name: Generate PR Description
         uses: vblagoje/pr-auto@v1
