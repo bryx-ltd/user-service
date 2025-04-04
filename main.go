@@ -1,14 +1,13 @@
 package main
 
 import (
-	"github.com/bryx-ltd/user-service/database"
 	"github.com/bryx-ltd/user-service/initializers"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
 	initializers.LoadDotEnv()
-	database.DBConnection()
+	initializers.DBConnection()
 }
 
 func main() {
