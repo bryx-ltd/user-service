@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/bryx-ltd/user-service/controllers"
 	"github.com/bryx-ltd/user-service/initializers"
 	"github.com/gin-gonic/gin"
 )
@@ -13,11 +14,7 @@ func init() {
 func main() {
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "success",
-		})
-	})
+	router.POST("/user", controllers.PostUser)
 
 	router.Run()
 }
