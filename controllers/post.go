@@ -7,10 +7,15 @@ import (
 )
 
 func PostUser(c *gin.Context) {
+	var input struct {
+		FirstName    string
+		LastName     string
+		EmailAddress string
+		Password     string
+	}
+	c.Bind(&input)
 
-	// Create a hardcoded user
-	user := models.User{FirstName: "Neil", LastName: "Davies", EmailAddress: "test@test.com", Password: "verySecurePassword"}
-
+	user := models.User{FirstName: input.FirstName, LastName: input.LastName, EmailAddress: input.EmailAddress, Password: input.Password}
 	result := initializers.DB.Create(&user)
 
 	if result.Error != nil {
