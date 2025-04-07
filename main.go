@@ -14,7 +14,7 @@ func init() {
 func main() {
 	router := gin.Default()
 
-	router.POST("/user", controllers.PostUser)
+	router.POST("/users", controllers.PostUser)
 
 	router.Run()
 }
