@@ -27,3 +27,24 @@ func PostUser(c *gin.Context) {
 		"User": user,
 	})
 }
+
+func GetUsers(c *gin.Context) {
+	var users []models.User
+
+	initializers.DB.Find(&users)
+
+	c.JSON(200, gin.H{
+		"Users": users,
+	})
+}
+
+func GetUserByID(c *gin.Context) {
+	var user models.User
+	id := c.Param("id")
+
+	initializers.DB.First(&user, id)
+
+	c.JSON(200, gin.H{
+		"Users": user,
+	})
+}
