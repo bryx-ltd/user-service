@@ -15,6 +15,8 @@ func main() {
 	router := gin.Default()
 
 	router.POST("/users", controllers.PostUser)
+	router.GET("/users", controllers.GetUsers)
+	router.GET("/users/:id", controllers.GetUserByID)
 
 	router.Run()
 }
