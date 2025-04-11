@@ -16,7 +16,7 @@ func PostUser(c *gin.Context) {
 	}
 	c.Bind(&body)
 
-	// Create User based on request data
+	// Create User
 	user := models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: body.Password}
 	result := initializers.DB.Create(&user)
 
