@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PostUser(c *gin.Context) {
+func handleCreateUser(c *gin.Context) {
 	// Get Request Data
 	var body struct {
 		FirstName    string
@@ -31,7 +31,7 @@ func PostUser(c *gin.Context) {
 	})
 }
 
-func GetUsers(c *gin.Context) {
+func handleGetUsers(c *gin.Context) {
 	// Get all users
 	var users []models.User
 
@@ -43,7 +43,7 @@ func GetUsers(c *gin.Context) {
 	})
 }
 
-func GetUserByID(c *gin.Context) {
+func handleGetUserByID(c *gin.Context) {
 	// Get User ID
 	var user models.User
 	id := c.Param("id")
@@ -56,7 +56,7 @@ func GetUserByID(c *gin.Context) {
 	})
 }
 
-func UpdateUser(c *gin.Context) {
+func handleUpdateUser(c *gin.Context) {
 	// Get Request Data
 	var body struct {
 		FirstName    string
@@ -82,7 +82,7 @@ func UpdateUser(c *gin.Context) {
 	})
 }
 
-func DeleteUser(c *gin.Context) {
+func handleDeleteUser(c *gin.Context) {
 	// Get User ID
 	id := c.Param("id")
 
