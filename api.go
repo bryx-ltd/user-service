@@ -14,6 +14,10 @@ func handleCreateUser(c *gin.Context) {
 		EmailAddress string
 		Password     string
 	}
+
+	// Bind Request Data to Struct
+	// This will automatically parse the JSON body and bind it to the struct
+	// If the JSON is invalid, it will return a 400 Bad Request response
 	c.Bind(&body)
 
 	// Create User
