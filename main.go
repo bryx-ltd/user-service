@@ -8,6 +8,7 @@ import (
 func init() {
 	initializers.LoadDotEnv()
 	initializers.DBConnection()
+	initializers.SyncDatabase()
 }
 
 func main() {
