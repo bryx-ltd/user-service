@@ -103,11 +103,21 @@ func handleUpdateUser(c *gin.Context) {
 	var user []models.User
 	initializers.DB.Find(&user, id)
 
+	// Hash password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": "Failed to hash password",
+		})
+		return
+	}
+
 	// Update User
-	initializers.DB.Model(&user).Updates(models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: body.Password})
+	initializers.DB.Model(&user).Updates(models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: string(hashedPassword)})
 
 	// Return Response
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusBadRequest, gin.H{
 		"Users": user,
 	})
 }
