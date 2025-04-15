@@ -1,9 +1,12 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/bryx-ltd/user-service/initializers"
 	"github.com/bryx-ltd/user-service/models"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func handleCreateUser(c *gin.Context) {
@@ -18,10 +21,25 @@ func handleCreateUser(c *gin.Context) {
 	// Bind Request Data to Struct
 	// This will automatically parse the JSON body and bind it to the struct
 	// If the JSON is invalid, it will return a 400 Bad Request response
-	c.Bind(&body)
+	if c.Bind(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": "Invalid request data",
+		})
+		return
+	}
+
+	// Hash password
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to hash password",
+		})
+		return
+	}
 
 	// Create User
-	user := models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: body.Password}
+	user := models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: string(hashedPassword)}
 	result := initializers.DB.Create(&user)
 
 	if result.Error != nil {
