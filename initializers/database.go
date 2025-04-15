@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/bryx-ltd/user-service/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -19,4 +20,10 @@ func DBConnection() {
 	if err != nil {
 		log.Fatal("Error connecting to database")
 	}
+}
+
+// AutoMigrate will create tables, missing foreign keys, constraints, columns and indexes.
+func SyncDatabase() {
+	DB.AutoMigrate(
+		&models.User{})
 }
