@@ -33,7 +33,7 @@ func handleCreateUser(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to hash password",
+			"Error": "Failed to hash password",
 		})
 		return
 	}
@@ -43,12 +43,14 @@ func handleCreateUser(c *gin.Context) {
 	result := initializers.DB.Create(&user)
 
 	if result.Error != nil {
-		c.Status(400)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": "Failed to create user",
+		})
 		return
 	}
 
 	// Return Response
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"User": user,
 	})
 }
@@ -60,7 +62,7 @@ func handleGetUsers(c *gin.Context) {
 	initializers.DB.Find(&users)
 
 	// Return Response
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"Users": users,
 	})
 }
@@ -73,7 +75,7 @@ func handleGetUserByID(c *gin.Context) {
 	initializers.DB.First(&user, id)
 
 	// Return Response
-	c.JSON(200, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"Users": user,
 	})
 }
@@ -86,7 +88,13 @@ func handleUpdateUser(c *gin.Context) {
 		EmailAddress string
 		Password     string
 	}
-	c.Bind(&body)
+
+	if c.Bind(&body) != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": "Invalid request data",
+		})
+		return
+	}
 
 	// Get User ID
 	id := c.Param("id")
@@ -112,5 +120,5 @@ func handleDeleteUser(c *gin.Context) {
 	initializers.DB.Delete(&models.User{}, id)
 
 	// Return Response
-	c.Status(200)
+	c.Status(http.StatusOK)
 }
