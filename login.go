@@ -58,7 +58,8 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	age := 3600 * 24
 	c.SetSameSite(http.SameSiteLaxMode)
-	c.SetCookie("Authorization", tokenString, 3600, "/", "", false, true)
+	c.SetCookie("Authorization", tokenString, age, "/", "", false, true)
 	c.JSON(http.StatusOK, gin.H{})
 }
