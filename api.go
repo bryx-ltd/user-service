@@ -117,7 +117,7 @@ func handleUpdateUser(c *gin.Context) {
 	initializers.DB.Model(&user).Updates(models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: string(hashedPassword)})
 
 	// Return Response
-	c.JSON(http.StatusBadRequest, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"Users": user,
 	})
 }
