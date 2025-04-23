@@ -20,5 +20,7 @@ func main() {
 	router.GET("/users/:id", handleGetUserByID)
 	router.DELETE("/users/:id", handleDeleteUser)
 
+	router.POST("/login", Login)
+
 	router.Run()
 }
