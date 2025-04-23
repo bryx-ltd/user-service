@@ -13,7 +13,6 @@ import (
 )
 
 func Login(c *gin.Context) {
-	// Get email and password from request body
 	var body struct {
 		FirstName    string
 		LastName     string
@@ -28,7 +27,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Check if user exists in the database
 	var user models.User
 	initializers.DB.First(&user, "email_address = ?", body.EmailAddress)
 
@@ -39,7 +37,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Compare passwords
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -48,7 +45,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Generate JWT token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
 		"exp": time.Now().Add(time.Hour).Unix(),
@@ -62,7 +58,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Send back the token
 	c.JSON(http.StatusOK, gin.H{
 		"token": tokenString,
 	})
