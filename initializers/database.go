@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB // Global variable accessible anywhere
+var DB *gorm.DB
 
 func DBConnection() {
 	var err error
@@ -22,7 +22,6 @@ func DBConnection() {
 	}
 }
 
-// AutoMigrate will create tables, missing foreign keys, constraints, columns and indexes.
 func SyncDatabase() {
 	DB.AutoMigrate(
 		&models.User{})
