@@ -79,7 +79,7 @@ func handleUpdateUser(c *gin.Context) {
 
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Invalid request data",
+			"error": "Invalid request data",
 		})
 		return
 	}
@@ -93,7 +93,7 @@ func handleUpdateUser(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Failed to hash password",
+			"error": "Failed to hash password",
 		})
 		return
 	}
@@ -101,7 +101,7 @@ func handleUpdateUser(c *gin.Context) {
 	initializers.DB.Model(&user).Updates(models.User{FirstName: body.FirstName, LastName: body.LastName, EmailAddress: body.EmailAddress, Password: string(hashedPassword)})
 
 	c.JSON(http.StatusOK, gin.H{
-		"Users": user,
+		"users": user,
 	})
 }
 

@@ -22,7 +22,7 @@ func Login(c *gin.Context) {
 
 	if c.Bind(&body) != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Invalid request data",
+			"error": "Invalid request data",
 		})
 		return
 	}
@@ -32,7 +32,7 @@ func Login(c *gin.Context) {
 
 	if user.ID == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "User not found",
+			"error": "User not found",
 		})
 		return
 	}
@@ -40,7 +40,7 @@ func Login(c *gin.Context) {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Invalid password",
+			"error": "Invalid password",
 		})
 		return
 	}
@@ -53,7 +53,7 @@ func Login(c *gin.Context) {
 	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Failed to generate token",
+			"error": "Failed to generate token",
 		})
 		return
 	}
