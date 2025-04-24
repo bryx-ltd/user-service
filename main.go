@@ -21,6 +21,7 @@ func main() {
 	router.DELETE("/users/:id", handleDeleteUser)
 
 	router.POST("/login", Login)
+	router.GET("/protected", authorizeUser, validateUser)
 
 	router.Run()
 }

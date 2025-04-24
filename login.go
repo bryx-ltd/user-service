@@ -63,3 +63,11 @@ func Login(c *gin.Context) {
 	c.SetCookie("Authorization", tokenString, age, "/", "", false, true)
 	c.JSON(http.StatusOK, gin.H{})
 }
+
+func validateUser(c *gin.Context) {
+	user, _ := c.Get("user")
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": user,
+	})
+}
